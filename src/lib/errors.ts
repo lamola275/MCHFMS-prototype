@@ -3,6 +3,8 @@
  * errors into friendly, actionable messages for community users.
  */
 
+import { isSupabaseConfigured } from '@/lib/supabase'
+
 interface MaybeCodedError {
   message?: string
   code?: string
@@ -10,6 +12,9 @@ interface MaybeCodedError {
 }
 
 export function friendlyError(err: unknown, fallback = 'Something went wrong. Please try again.'): string {
+  if (!isSupabaseConfigured) {
+    return 'The database is not connected yet. Add your Supabase URL and anon key to the .env file (see SUPABASE-SETUP-GUIDE.md), then restart the app.'
+  }
   if (!err) return fallback
   const e = err as MaybeCodedError
   const msg = (e.message ?? '').toLowerCase()

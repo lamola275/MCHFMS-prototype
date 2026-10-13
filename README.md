@@ -53,44 +53,19 @@ Bogoshi Thato Maphile (ST10122582) · Disema Ramohaladi (ST10529815)
 
 ## Setup guide
 
-### 1 · Create the Supabase project (5 minutes)
-
-1. Sign up at [supabase.com](https://supabase.com) → **New project** → pick a name, database
-   password and region → wait for provisioning.
-2. Open **SQL Editor → New query**, paste the **entire contents of `supabase/schema.sql`**, press **Run**.
-   This creates all tables, RLS policies, integrity triggers, helper functions and seed content.
-3. Go to **Project Settings → API** and copy the **Project URL** and the **anon public** key.
-4. *(Recommended for demos)* **Authentication → Sign In / Up → Email** → turn **Confirm email** off,
-   so new accounts can sign in immediately. (Leave it on for production.)
-
-### 2 · Run the app locally
+**Read [SUPABASE-SETUP-GUIDE.md](SUPABASE-SETUP-GUIDE.md)** — a 15-minute, step-by-step
+walkthrough with screenshots-style instructions and a troubleshooting table. The short version:
 
 ```bash
-cp .env.example .env        # then paste your URL + anon key into .env
+# 1. Create a Supabase project and run supabase/schema.sql in its SQL Editor
+# 2. Copy Project Settings → API → Project URL + anon key, then:
+cp .env.example .env        # paste your two values into .env
 npm install
 npm run dev                 # http://localhost:3000
+# 3. Register an account in the app, then in the SQL Editor:
+#    update public.profiles set role = 'admin' where email = 'you@example.com';
+# 4. Sign out/in, enable 2FA under Account → Security & 2FA → /admin unlocks
 ```
-
-### 3 · Make yourself an administrator
-
-1. Register an account in the app.
-2. In the Supabase **SQL Editor**, run (with your email):
-
-   ```sql
-   update public.profiles set role = 'admin' where email = 'you@example.com';
-   ```
-
-3. Sign out and back in. Go to **Account → Security & 2FA**, scan the QR code with an
-   authenticator app and activate 2FA — the admin dashboard then unlocks at `/admin`.
-
-### 4 · Build for production
-
-```bash
-npm run build               # outputs static files to dist/
-```
-
-Host `dist/` on any static host. Remember to add your production domain under
-**Authentication → URL Configuration** in Supabase.
 
 ## Putting it on GitHub & adding the lecturer
 

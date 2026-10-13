@@ -1,10 +1,8 @@
 import { lazy, Suspense, useEffect } from 'react'
 import { Route, Routes, useLocation } from 'react-router'
 import { Toaster } from 'sonner'
-import { isSupabaseConfigured } from '@/lib/supabase'
 import { AuthProvider } from '@/hooks/use-auth'
 import { Layout } from '@/components/Layout'
-import { SetupScreen } from '@/components/SetupScreen'
 import { RequireAuth, RequireAdmin } from '@/components/guards'
 import { PageLoading } from '@/components/states'
 import Home from '@/pages/Home'
@@ -40,15 +38,6 @@ function ScrollToTop() {
 }
 
 export default function App() {
-  if (!isSupabaseConfigured) {
-    return (
-      <>
-        <SetupScreen />
-        <Toaster position="bottom-right" richColors closeButton />
-      </>
-    )
-  }
-
   return (
     <AuthProvider>
       <ScrollToTop />

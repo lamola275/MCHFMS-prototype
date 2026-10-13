@@ -1,57 +1,30 @@
-import { createClient, type SupabaseClient } from '@supabase/supabase-js'
+import { createClient } from '@supabase/supabase-js'
 
 /**
- * Supabase connection bootstrap.
+ * Supabase connection.
  *
- * Connection settings are resolved in this order:
- *  1. Build-time environment variables (VITE_SUPABASE_URL / VITE_SUPABASE_ANON_KEY)
- *     — the normal path when running locally with a `.env` file (see .env.example).
- *  2. The in-app setup screen, which stores ONLY the project URL and anon key in
- *     this browser's localStorage so the hosted preview can be connected without a
- *     rebuild. The anon key is safe to expose: all data is protected by Row Level
- *     Security policies on the Supabase side. No application data is ever stored
- *     in the browser — everything lives in the Supabase Postgres database.
+ * The app reads its project credentials from build-time environment variables:
+ *   VITE_SUPABASE_URL      — your project URL (https://<ref>.supabase.co)
+ *   VITE_SUPABASE_ANON_KEY — the anon public key
+ *
+ * Set them in a `.env` file (copy `.env.example`) for local development, or in
+ * your host's environment settings when deploying. See SUPABASE-SETUP-GUIDE.md
+ * for the full walkthrough.
+ *
+ * The anon key is safe to ship in the browser: every table is protected by Row
+ * Level Security policies on the Supabase side, not by secrecy of this key.
  */
 
-const LS_URL = 'mchfms.supabase.url'
-const LS_KEY = 'mchfms.supabase.anonKey'
+const url = (import.meta.env.VITE_SUPABASE_URL as string | undefined)?.trim() ?? ''
+const anonKey = (import.meta.env.VITE_SUPABASE_ANON_KEY as string | undefined)?.trim() ?? ''
 
-export interface SupabaseConfig {
-  url: string
-  anonKey: string
-  /** true when the config came from build-time env vars */
-  fromEnv: boolean
-}
-
-export function getSupabaseConfig(): SupabaseConfig {
-  const envUrl = (import.meta.env.VITE_SUPABASE_URL as string | undefined)?.trim() ?? ''
-  const envKey = (import.meta.env.VITE_SUPABASE_ANON_KEY as string | undefined)?.trim() ?? ''
-  if (envUrl && envKey) return { url: envUrl, anonKey: envKey, fromEnv: true }
-  return {
-    url: localStorage.getItem(LS_URL) ?? '',
-    anonKey: localStorage.getItem(LS_KEY) ?? '',
-    fromEnv: false,
-  }
-}
-
-export function saveSupabaseConfig(url: string, anonKey: string): void {
-  localStorage.setItem(LS_URL, url.trim())
-  localStorage.setItem(LS_KEY, anonKey.trim())
-}
-
-export function clearSupabaseConfig(): void {
-  localStorage.removeItem(LS_URL)
-  localStorage.removeItem(LS_KEY)
-}
-
-const config = getSupabaseConfig()
-export const isSupabaseConfigured = Boolean(config.url && config.anonKey)
+export const isSupabaseConfigured = Boolean(url && anonKey)
 
 // When unconfigured we still create an inert client so imports never crash;
-// the app gates all data UI behind `isSupabaseConfigured` (SetupScreen).
-export const supabase: SupabaseClient = createClient(
-  config.url || 'https://not-configured.supabase.co',
-  config.anonKey || 'not-configured',
+// data sections then show a friendly "not configured" notice instead.
+export const supabase = createClient(
+  url || 'https://not-configured.supabase.co',
+  anonKey || 'not-configured',
   {
     auth: {
       persistSession: true,
