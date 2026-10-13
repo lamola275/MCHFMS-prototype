@@ -1,73 +1,137 @@
-# React + TypeScript + Vite
+# MCHFMS — Munsieville Cultural Heritage Foundation Management System
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A community web application for the **Munsieville Cultural Heritage Foundation**, a non-profit
+arts, culture and heritage organisation in Munsieville, Mogale City (Gauteng, South Africa).
+Built from the high-level design in our Task 1 report, it brings three modules — **Events**,
+**Volunteers** and the **Heritage Archive** — together behind one coordinator-friendly system.
 
-Currently, two official plugins are available:
+**Group 17** · Rethabile Rute (ST10467950) · Tlou Prince Lamola (ST10506644) ·
+Bogoshi Thato Maphile (ST10122582) · Disema Ramohaladi (ST10529815)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+---
 
-## React Compiler
+## Features
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+### Community (frontend)
+- Browse, search and filter upcoming **events & programmes** with live seat availability
+- **Register (RSVP)** as a volunteer for an event in two taps; cancel any time
+- Personal dashboard: profile (contact details + primary skill) and full **registration history**
+- Public, searchable **heritage archive** of stories about the Munsieville Four and local history
+- Fully responsive + installable as a **PWA** on desktop and mobile (Add to Home Screen)
 
-## Expanding the ESLint configuration
+### Coordinators (admin backend)
+- **Dashboard**: upcoming events, volunteers, stories and registrations at a glance, with charts
+- **Events**: create / edit / cancel / delete, per-event registrant lists with **CSV export**
+- **Volunteers**: directory, participation history, promote/revoke admin roles, **CSV export**
+- **Heritage archive**: publish / edit / unpublish / delete stories
+- Admin accounts are **required to enable two-factor authentication** before the dashboard unlocks
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## Tech stack
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+| Layer | Technology |
+| --- | --- |
+| Frontend | React 19 + TypeScript + Vite, Tailwind CSS, shadcn/ui |
+| Cloud database | **Supabase** (hosted Postgres) with Row Level Security |
+| Auth | Supabase Auth (email + password) with **TOTP two-factor** (Google/Microsoft Authenticator) |
+| Hosting | Any static host — the app talks to Supabase directly |
+| PWA | Web app manifest + service worker (offline app shell) |
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+## How the Task 2 requirements are met
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+| Requirement | Implementation |
+| --- | --- |
+| Cloud-based database | Supabase hosted Postgres — schema in `supabase/schema.sql` |
+| Admin backend + user frontend | Public site + `/admin` coordinator dashboard guarded by role |
+| Authentication | Supabase Auth email/password; sessions managed by the client SDK |
+| Two-factor authentication | TOTP authenticator-app codes (enrol under Account → Security & 2FA), enforced for admins |
+| SQL-injection mitigation | All data access via the Supabase client (parameterised PostgREST calls); zero string-built SQL |
+| Data integrity | Unique constraint blocks duplicate registrations; a database trigger enforces capacity & event status server-side; check constraints validate lengths/ranges; a trigger blocks role self-promotion |
+| Row-level security | Every table has RLS policies — users only ever see/edit their own data; public sees only published content |
+| Error handling | Validated forms with inline messages (zod), friendly mapped server errors, toast feedback, empty/loading/error states on every screen, React error boundary, 404 page |
+| Desktop + mobile | Responsive design + installable PWA |
+| GitHub | This repository — small, frequent conventional commits |
+
+## Setup guide
+
+### 1 · Create the Supabase project (5 minutes)
+
+1. Sign up at [supabase.com](https://supabase.com) → **New project** → pick a name, database
+   password and region → wait for provisioning.
+2. Open **SQL Editor → New query**, paste the **entire contents of `supabase/schema.sql`**, press **Run**.
+   This creates all tables, RLS policies, integrity triggers, helper functions and seed content.
+3. Go to **Project Settings → API** and copy the **Project URL** and the **anon public** key.
+4. *(Recommended for demos)* **Authentication → Sign In / Up → Email** → turn **Confirm email** off,
+   so new accounts can sign in immediately. (Leave it on for production.)
+
+### 2 · Run the app locally
+
+```bash
+cp .env.example .env        # then paste your URL + anon key into .env
+npm install
+npm run dev                 # http://localhost:3000
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### 3 · Make yourself an administrator
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+1. Register an account in the app.
+2. In the Supabase **SQL Editor**, run (with your email):
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+   ```sql
+   update public.profiles set role = 'admin' where email = 'you@example.com';
+   ```
+
+3. Sign out and back in. Go to **Account → Security & 2FA**, scan the QR code with an
+   authenticator app and activate 2FA — the admin dashboard then unlocks at `/admin`.
+
+### 4 · Build for production
+
+```bash
+npm run build               # outputs static files to dist/
 ```
+
+Host `dist/` on any static host. Remember to add your production domain under
+**Authentication → URL Configuration** in Supabase.
+
+## Putting it on GitHub & adding the lecturer
+
+```bash
+git init
+git add .
+git commit -m "feat: MCHFMS task 2 application (React + Supabase)"
+git branch -M main
+git remote add origin https://github.com/<your-user>/mchfms.git
+git push -u origin main
+```
+
+Then in the GitHub repo: **Settings → Collaborators → Add people** → enter the lecturer's
+GitHub username → they receive an invite with read access.
+
+> **Never commit `.env`** — it is git-ignored. The anon key is safe to use in the browser
+> (data is protected by Row Level Security), but keep it out of the repo anyway.
+
+## Project structure
+
+```
+├── supabase/schema.sql       # Database: tables, RLS, triggers, functions, seed data
+├── public/                   # PWA manifest, service worker, icons
+├── src/
+│   ├── lib/                  # Supabase client, types, validation, error mapping, helpers
+│   ├── hooks/use-auth.tsx    # Auth context (session, profile, admin flag)
+│   ├── components/           # Layout, cards, guards, dialogs, states, setup screen
+│   └── pages/
+│       ├── …                 # Public: home, events, event detail, archive, story
+│       ├── auth/             # Login (with 2FA step), register, password reset
+│       ├── account/          # Profile, my registrations, security & 2FA
+│       └── admin/            # Dashboard, events, registrants, volunteers, stories
+```
+
+## Testing the key rules
+
+| Check | Expected result |
+| --- | --- |
+| Register for an event, then register again | Second attempt rejected: “already registered” (DB unique constraint) |
+| Fill an event to capacity, register once more | Rejected: “fully booked” (DB trigger — even direct API calls are blocked) |
+| Register for a past or draft event | Rejected by the same trigger |
+| Sign up, try to read another user's registrations | Blocked by Row Level Security |
+| Non-admin opens `/admin` | “Coordinators only” screen; API writes are rejected by RLS regardless |
+| Admin without 2FA opens `/admin` | Redirected to Security page until an authenticator is enrolled |

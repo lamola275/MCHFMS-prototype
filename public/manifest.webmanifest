@@ -1,0 +1,18 @@
+{
+  "name": "Munsieville Cultural Heritage Foundation",
+  "short_name": "Munsieville",
+  "description": "Community events, volunteer registration and the living heritage archive of Munsieville.",
+  "start_url": ".",
+  "scope": ".",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#FCF7F1",
+  "theme_color": "#9D3D2C",
+  "lang": "en-ZA",
+  "categories": ["community", "education", "culture"],
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}
