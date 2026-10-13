@@ -53,8 +53,10 @@ Bogoshi Thato Maphile (ST10122582) · Disema Ramohaladi (ST10529815)
 
 ## Setup guide
 
-**Read [SUPABASE-SETUP-GUIDE.md](SUPABASE-SETUP-GUIDE.md)** — a 15-minute, step-by-step
-walkthrough with screenshots-style instructions and a troubleshooting table. The short version:
+1. **[INSTALLATION-GUIDE.md](INSTALLATION-GUIDE.md)** — install Node.js, the project packages, and run the app (start here if nothing is set up yet).
+2. **[SUPABASE-SETUP-GUIDE.md](SUPABASE-SETUP-GUIDE.md)** — create the cloud database, connect it, and set up your admin account. A 15-minute walkthrough with a troubleshooting table.
+
+The short version, once Node.js is installed:
 
 ```bash
 # 1. Create a Supabase project and run supabase/schema.sql in its SQL Editor
