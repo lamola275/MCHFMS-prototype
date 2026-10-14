@@ -1,0 +1,172 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 36 68% 96.5%; /* #FCF7F1 warm cream */
+    --foreground: 25 15% 7%; /* #16120F warm near-black */
+    --card: 0 0% 100%;
+    --card-foreground: 25 15% 7%;
+    --popover: 36 68% 98%;
+    --popover-foreground: 25 15% 7%;
+    --primary: 9 57% 39%; /* #9D3D2C terracotta clay */
+    --primary-foreground: 36 68% 96.5%;
+    --secondary: 45 68% 80%; /* #F0DBA8 archive tan */
+    --secondary-foreground: 25 15% 7%;
+    --muted: 38 30% 91%;
+    --muted-foreground: 28 9% 38%;
+    --accent: 45 68% 80%;
+    --accent-foreground: 25 15% 7%;
+    --destructive: 4 72% 59%; /* #E2574C coral red */
+    --destructive-foreground: 36 68% 96.5%;
+    --border: 32 14% 82%;
+    --input: 32 14% 78%;
+    --ring: 9 57% 39%;
+    --radius: 0.9rem;
+    --sidebar-background: 36 68% 96.5%;
+    --sidebar-foreground: 25 15% 7%;
+    --sidebar-primary: 9 57% 39%;
+    --sidebar-primary-foreground: 36 68% 96.5%;
+    --sidebar-accent: 45 68% 80%;
+    --sidebar-accent-foreground: 25 15% 7%;
+    --sidebar-border: 32 14% 82%;
+    --sidebar-ring: 9 57% 39%;
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-cream text-ink font-sans antialiased;
+    font-feature-settings: 'ss01' on;
+  }
+
+  ::selection {
+    background: #9d3d2c;
+    color: #fcf7f1;
+  }
+
+  /* Dotted underline links — archival signature */
+  a {
+    @apply underline-offset-4;
+  }
+}
+
+@layer components {
+  /* Category / filter pill with 1.5px ink border */
+  .pill {
+    @apply inline-flex items-center gap-1.5 rounded-full border-[1.5px] border-ink bg-transparent px-3.5 py-1 text-[11px] font-semibold uppercase tracking-[0.1em] text-ink transition-colors duration-200;
+  }
+  a.pill:hover,
+  button.pill:hover {
+    @apply bg-ink text-cream;
+  }
+  .pill-active {
+    @apply bg-ink text-cream;
+  }
+  .pill-static {
+    @apply pointer-events-none;
+  }
+
+  /* Framed panel — archival card */
+  .frame {
+    @apply rounded-[1.2rem] border-[1.5px] border-ink bg-white;
+  }
+
+  .btn-ink {
+    @apply inline-flex items-center justify-center gap-2 rounded-full border-[1.5px] border-ink bg-ink px-5 py-2.5 text-sm font-semibold text-cream transition-all duration-200 hover:bg-transparent hover:text-ink disabled:pointer-events-none disabled:opacity-50;
+  }
+  .btn-clay {
+    @apply inline-flex items-center justify-center gap-2 rounded-full border-[1.5px] border-clay bg-clay px-5 py-2.5 text-sm font-semibold text-cream transition-all duration-200 hover:bg-clay-dark hover:border-clay-dark disabled:pointer-events-none disabled:opacity-50;
+  }
+  .btn-ghost-ink {
+    @apply inline-flex items-center justify-center gap-2 rounded-full border-[1.5px] border-ink bg-transparent px-5 py-2.5 text-sm font-semibold text-ink transition-all duration-200 hover:bg-ink hover:text-cream disabled:pointer-events-none disabled:opacity-50;
+  }
+  .btn-cream {
+    @apply inline-flex items-center justify-center gap-2 rounded-full border-[1.5px] border-cream bg-cream px-5 py-2.5 text-sm font-semibold text-ink transition-all duration-200 hover:bg-transparent hover:text-cream disabled:pointer-events-none disabled:opacity-50;
+  }
+  .btn-ghost-cream {
+    @apply inline-flex items-center justify-center gap-2 rounded-full border-[1.5px] border-cream bg-transparent px-5 py-2.5 text-sm font-semibold text-cream transition-all duration-200 hover:bg-cream hover:text-ink disabled:pointer-events-none disabled:opacity-50;
+  }
+
+  .link-dotted {
+    text-decoration: none;
+    border-bottom: 0.1em dotted currentColor;
+    transition: opacity 0.2s;
+  }
+  .link-dotted:hover {
+    border-bottom-style: solid;
+  }
+
+  .label-caps {
+    @apply text-[11px] font-semibold uppercase tracking-[0.2em];
+  }
+
+  /* Archive masonry */
+  .masonry {
+    columns: 1;
+    column-gap: 1.5rem;
+  }
+  @media (min-width: 640px) {
+    .masonry {
+      columns: 2;
+    }
+  }
+  @media (min-width: 1024px) {
+    .masonry {
+      columns: 3;
+    }
+  }
+  .masonry > * {
+    break-inside: avoid;
+    margin-bottom: 1.5rem;
+  }
+
+  /* Form input — archival outline */
+  .field-input {
+    @apply w-full rounded-xl border-[1.5px] border-ink/70 bg-white px-4 py-2.5 text-sm text-ink placeholder:text-ink/35 focus:outline-none focus:ring-2 focus:ring-clay/40 focus:border-clay disabled:opacity-60;
+  }
+  .field-label {
+    @apply mb-1.5 block text-[11px] font-semibold uppercase tracking-[0.14em] text-ink/70;
+  }
+  .field-error {
+    @apply mt-1.5 flex items-center gap-1.5 text-xs font-medium text-clay;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+/* Subtle paper grain over the whole app */
+.grain-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  pointer-events: none;
+  opacity: 0.045;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 180px 180px;
+}
+
+/* Thin archival scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: #fcf7f1;
+}
+::-webkit-scrollbar-thumb {
+  background: #16120f;
+  border-radius: 999px;
+  border: 2.5px solid #fcf7f1;
+}
