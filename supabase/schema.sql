@@ -1,28 +1,3 @@
--- ============================================================================
--- MCHFMS — Munsieville Cultural Heritage Foundation Management System
--- Supabase database schema (Postgres)
---
--- HOW TO USE
---   1. Create a free project at https://supabase.com
---   2. Open: SQL Editor → New query
---   3. Paste this ENTIRE file and press Run
---   4. Done — tables, security policies, triggers, helper functions and seed
---      content are all created in one pass.
---
--- SECURITY MODEL (summary)
---   • Row Level Security (RLS) is ENABLED on every table.
---   • Anonymous visitors can only read published events & stories.
---   • Signed-in volunteers can read/update their own profile and manage their
---     own event registrations.
---   • Only admins (profiles.role = 'admin') can write events / stories and
---     read all profiles & registrations.
---   • Capacity limits and duplicate registrations are enforced by the
---     database itself (trigger + unique constraint), so they cannot be
---     bypassed from the client.
---   • All queries from the app use the Supabase client, which issues
---     parameterised requests — no string-built SQL, so no SQL injection.
--- ============================================================================
-
 -- ── 1. TABLES ───────────────────────────────────────────────────────────────
 
 -- Volunteer profiles: extends Supabase auth.users 1-to-1.
@@ -421,12 +396,3 @@ insert into public.heritage_stories (title, category, contributor, content, imag
   'asset:story-culture', true
 )
 on conflict do nothing;
-
--- ── 8. FINAL STEP (manual) ──────────────────────────────────────────────────
--- After registering your first account in the app, promote yourself to admin
--- by running the following line (replace the email) in the SQL Editor:
---
---   update public.profiles set role = 'admin' where email = 'you@example.com';
---
--- Then sign out and back in, and set up two-factor authentication under
--- Account → Security & 2FA (required before the admin dashboard unlocks).
