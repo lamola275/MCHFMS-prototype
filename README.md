@@ -3,10 +3,14 @@
 A community web application for the Munsieville Cultural Heritage Foundation, a non-profit
 arts, culture and heritage organisation in Munsieville, Mogale City (Gauteng, South Africa).
 Built from the high-level design in our Task 1 report, it brings three modules — **Events**,
-**Volunteers** and the **Heritage Archive** — together behind one coordinator-friendly system.
+Volunteers and the Heritage Archive together behind one coordinator-friendly system.
 
 ---
+HOW TO START APP
 
+Install Node.JS
+Double click the "start-app.bat" to launch site.
+---
 ## Features
 
 ### Community (frontend)
