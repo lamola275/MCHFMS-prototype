@@ -8,7 +8,7 @@ Volunteers and the Heritage Archive together behind one coordinator-friendly sys
 ---
 HOW TO START APP
 
-Install Node.JS
+Install Node.JS and after
 Double click the "start-app.bat" to launch site.
 ---
 ## Features
