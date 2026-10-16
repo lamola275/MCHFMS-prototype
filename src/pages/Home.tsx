@@ -4,7 +4,7 @@ import { ArrowRight, CalendarDays, BookOpen, Users, Flame } from 'lucide-react'
 import { supabase } from '@/lib/supabase'
 import type { CommunityStats, EventRow, Story } from '@/lib/types'
 import { friendlyError } from '@/lib/errors'
-import { HERO_IMAGE } from '@/lib/images'
+import { HERO_VIDEO, HERO_POSTER } from '@/lib/images'
 import { EventCard } from '@/components/EventCard'
 import { StoryCard } from '@/components/StoryCard'
 import { CardSkeleton, ErrorState } from '@/components/states'
@@ -85,9 +85,14 @@ export default function Home() {
 
           <div className="relative mx-auto w-full max-w-[520px] animate-fade-up lg:justify-self-end" style={{ animationDelay: '120ms' }}>
             <div className="absolute -inset-3 rounded-t-[999px] rounded-b-[2rem] border-[1.5px] border-cream/60" aria-hidden="true" />
-            <img
-              src={HERO_IMAGE}
-              alt="Community members gathered at a hillside memorial at golden hour, candles in hand"
+            <video
+              src={HERO_VIDEO}
+              poster={HERO_POSTER}
+              autoPlay
+              muted
+              loop
+              playsInline
+              aria-label="The Munsieville Four memorial gravesite"
               className="aspect-[4/5] w-full rounded-t-[999px] rounded-b-[1.6rem] border-[1.5px] border-ink object-cover sm:aspect-[5/5.4]"
             />
             <div className="absolute -bottom-5 left-1/2 w-max -translate-x-1/2 rounded-full border-[1.5px] border-ink bg-tan px-5 py-2 text-center shadow-offset-sm">

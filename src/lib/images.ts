@@ -4,6 +4,8 @@
  * coordinators can also hot-link their own hosted images.
  */
 import hero from '@/assets/img/hero.jpg'
+import heroVideo from '@/assets/img/hero.mp4'
+import heroPoster from '@/assets/img/hero-poster.jpg'
 import eventCommemoration from '@/assets/img/event-commemoration.jpg'
 import eventCaravan from '@/assets/img/event-caravan.jpg'
 import eventWorkshop from '@/assets/img/event-workshop.jpg'
@@ -20,6 +22,8 @@ const ASSETS: Record<string, string> = {
 }
 
 export const HERO_IMAGE = hero
+export const HERO_VIDEO = heroVideo
+export const HERO_POSTER = heroPoster
 
 export const EVENT_IMAGE_OPTIONS = [
   { value: '', label: 'No image' },
