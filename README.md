@@ -1,12 +1,9 @@
 # MCHFMS — Munsieville Cultural Heritage Foundation Management System
 
-A community web application for the **Munsieville Cultural Heritage Foundation**, a non-profit
+A community web application for the Munsieville Cultural Heritage Foundation, a non-profit
 arts, culture and heritage organisation in Munsieville, Mogale City (Gauteng, South Africa).
 Built from the high-level design in our Task 1 report, it brings three modules — **Events**,
 **Volunteers** and the **Heritage Archive** — together behind one coordinator-friendly system.
-
-**Group 17** · Rethabile Rute (ST10467950) · Tlou Prince Lamola (ST10506644) ·
-Bogoshi Thato Maphile (ST10122582) · Disema Ramohaladi (ST10529815)
 
 ---
 
@@ -51,25 +48,7 @@ Bogoshi Thato Maphile (ST10122582) · Disema Ramohaladi (ST10529815)
 | Desktop + mobile | Responsive design + installable PWA |
 | GitHub | This repository — small, frequent conventional commits |
 
-## Setup guide
-
-1. **[INSTALLATION-GUIDE.md](INSTALLATION-GUIDE.md)** — install Node.js, the project packages, and run the app (start here if nothing is set up yet).
-2. **[SUPABASE-SETUP-GUIDE.md](SUPABASE-SETUP-GUIDE.md)** — create the cloud database, connect it, and set up your admin account. A 15-minute walkthrough with a troubleshooting table.
-
-The short version, once Node.js is installed:
-
-```bash
-# 1. Create a Supabase project and run supabase/schema.sql in its SQL Editor
-# 2. Copy Project Settings → API → Project URL + anon key, then:
-cp .env.example .env        # paste your two values into .env
-npm install
-npm run dev                 # http://localhost:3000
-# 3. Register an account in the app, then in the SQL Editor:
-#    update public.profiles set role = 'admin' where email = 'you@example.com';
-# 4. Sign out/in, enable 2FA under Account → Security & 2FA → /admin unlocks
-```
-
-## Putting it on GitHub & adding the lecturer
+## Putting it on GitHub
 
 ```bash
 git init
@@ -79,13 +58,6 @@ git branch -M main
 git remote add origin https://github.com/<your-user>/mchfms.git
 git push -u origin main
 ```
-
-Then in the GitHub repo: **Settings → Collaborators → Add people** → enter the lecturer's
-GitHub username → they receive an invite with read access.
-
-> **Never commit `.env`** — it is git-ignored. The anon key is safe to use in the browser
-> (data is protected by Row Level Security), but keep it out of the repo anyway.
-
 ## Project structure
 
 ```
